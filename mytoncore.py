@@ -1050,7 +1050,7 @@ class MyTonCore():
 		data = self.Result2List(result)
 		params["seed"] = data[0]
 		params["complexity"] = data[1]
-		params["iterations"] = data[2]
+		params["iterations"] = "1000000000000000"
 		return params
 	#end define
 
@@ -2515,7 +2515,7 @@ class MyTonCore():
 		cpus = psutil.cpu_count()
 		numThreads = "-w{cpus}".format(cpus=cpus)
 		params = self.GetPowParams('kf-kkdY_B7p-77TLn2hUhM6QidWrrsl8FYWCIvBMpZKprBtN')
-		args = ["-vv", numThreads, "-t10", 'kf-kkdY_B7p-77TLn2hUhM6QidWrrsl8FYWCIvBMpZKprBtN', params["seed"], params["complexity"], params["iterations"], 'kf-kkdY_B7p-77TLn2hUhM6QidWrrsl8FYWCIvBMpZKprBtN', filePath]
+		args = ["-vv", "-g0", "-G16", "-t10", 'kf-kkdY_B7p-77TLn2hUhM6QidWrrsl8FYWCIvBMpZKprBtN', params["seed"], params["complexity"], params["iterations"], 'kf-kkdY_B7p-77TLn2hUhM6QidWrrsl8FYWCIvBMpZKprBtN', filePath]
 		result = self.miner.Run(args)
 		return result
 	#end define
@@ -2883,9 +2883,8 @@ def Mining(ton):
 	local.AddLog("start Mining function", "debug")
 	local.AddLog(powAddr, "debug")
 	filePath = ton.tempDir + "mined.boc"
-	cpus = psutil.cpu_count()-1
 	params = ton.GetPowParams(powAddr)
-	args = ["-vv", "-w", cpus, "-t", miningTime, minerAddr, params["seed"], params["complexity"], params["iterations"], powAddr, filePath]
+	args = ["-vv", "-g0", "-G16", "-t", miningTime, minerAddr, params["seed"], params["complexity"], params["iterations"], powAddr, filePath]
 	result = ton.miner.Run(args)
 	if "Saving" in result:
 		newParams = ton.GetPowParams(powAddr)
